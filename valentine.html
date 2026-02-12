@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Proposal 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .container.wide {
+            max-width: 600px;
+            width: 90%;
+            max-height: 95vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            color: #ff1493;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+        }
+
+        .question {
+            font-size: 1.5em;
+            color: #d63384;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 80px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 300px;
+            width: 100%;
+        }
+
+        button {
+            padding: 20px 50px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(255, 20, 147, 0.4);
+            position: relative;
+            z-index: 10;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(255, 20, 147, 0.6);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 100%);
+            color: #d63384;
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.4);
+            position: relative;
+            transition: all 0.15s ease-out;
+            z-index: 5;
+        }
+
+        .no-btn.moving {
+            position: absolute;
+        }
+
+        .no-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .warning-page {
+            display: none;
+        }
+
+        .warning-page.active {
+            display: block;
+        }
+
+        .warning-text {
+            font-size: 2em;
+            color: #ff1493;
+            font-weight: bold;
+            margin: 40px 0;
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .success-page {
+            display: none;
+        }
+
+        .success-page.active {
+            display: block;
+        }
+
+        .countdown-container {
+            margin: 30px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #ffe0f0 0%, #ffd4e5 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+        }
+
+        .countdown-title {
+            font-size: 1.5em;
+            color: #ff1493;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .time-unit {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 100px;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+        }
+
+        .time-value {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ff1493;
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.9em;
+            color: #d63384;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .countdown-message {
+            font-size: 1.2em;
+            color: #d63384;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .image-container {
+            margin: 30px 0;
+            min-height: 400px;
+            max-height: 75vh;
+            background: #ffe0f0;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 75vh;
+            height: auto;
+            width: auto;
+            border-radius: 15px;
+            object-fit: contain;
+        }
+
+        .placeholder-text {
+            color: #d63384;
+            font-size: 1.2em;
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 40px;
+            animation: floatUp 4s linear;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .success-message {
+            font-size: 1.8em;
+            color: #ff1493;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .try-again-btn {
+            background: linear-gradient(135deg, #d63384 0%, #ff69b4 100%);
+            color: white;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(214, 51, 132, 0.4);
+        }
+
+        .try-again-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Initial Question Page -->
+        <div id="questionPage">
+            <h1>💖 Hey My Girl Pushpi, Will You Be My Valentine? 💖</h1>
+            <p class="question">Will you go out with me on our first Valentine's Day Date? </p>
+            <div class="button-container" id="buttonContainer">
+                <button class="yes-btn" onclick="handleYes()">Yes! 💕</button>
+                <button class="no-btn" id="noBtn" onclick="handleNo()">No</button>
+            </div>
+        </div>
+
+        <!-- Warning Page -->
+        <div id="warningPage" class="warning-page">
+            <h1>⚠️</h1>
+            <p class="warning-text">ঐ পুষ্পি হ্যাঁ বাটন প্রেস করওওওওওওওওওও!😭😭</p>
+            <p style="font-size: 1.2em; color: #d63384; margin-top: 20px;" id="warningCount">
+                You tried to say no 6 times! Really? 🤨
+            </p>
+            <button class="try-again-btn" onclick="resetGame()">আবার চেষ্টা করো না 🥹</button>
+        </div>
+
+        <!-- Success Page -->
+        <div id="successPage" class="success-page">
+            <p class="success-message">ইয়েএএএএএএ আমার পুষ্পি হ্যাঁ বলেছে!!!🤗🤗</p>
+            
+            <!-- Countdown Timer (shows until Feb 14) -->
+            <div id="countdownSection" class="countdown-container">
+                <p class="countdown-title">This page unlocks in... </p>
+                <div class="countdown-timer">
+                    <div class="time-unit">
+                        <span class="time-value" id="days">00</span>
+                        <span class="time-label">Days</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-value" id="hours">00</span>
+                        <span class="time-label">Hours</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-value" id="minutes">00</span>
+                        <span class="time-label">Minutes</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-value" id="seconds">00</span>
+                        <span class="time-label">Seconds</span>
+                    </div>
+                </div>
+                <p class="countdown-message">Can't wait to celebrate my first Valentine's Day with my Pushpi 🥰🥰 💕</p>
+            </div>
+
+            <!-- Image Container (shows after Feb 14) -->
+            <div class="image-container" id="imageSection" style="display: none;">
+                <!-- REPLACE "valentine.png" with your actual image filename -->
+                <img id="coupleImage" src="valentine.png" alt="Our special moment">
+                <p class="placeholder-text" id="placeholderText" style="display: none;">Your special image will appear here ✨</p>
+            </div>
+            
+            <p style="font-size: 1.3em; color: #ff1493; margin-top: 20px;">
+                অনেক খুশি লাগতেছে!!Thanquuuu🥰🥰🤗🤗
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let noClickCount = 0;
+        // Randomly choose how many times the No button will move (between 5 and 10)
+        const maxNoClicks = Math.floor(Math.random() * 6) + 5; // Random number between 5 and 10
+        const noBtn = document.getElementById('noBtn');
+        const buttonContainer = document.getElementById('buttonContainer');
+
+        function getRandomPosition() {
+            const container = buttonContainer.getBoundingClientRect();
+            const btnWidth = 150;
+            const btnHeight = 60;
+            
+            // Make it move across a much larger area
+            const maxX = container.width - btnWidth;
+            const maxY = container.height - btnHeight;
+            
+            // Generate positions farther from center
+            let randomX = Math.random() * maxX;
+            let randomY = Math.random() * maxY;
+            
+            // Ensure button moves far from its current position
+            const currentLeft = parseFloat(noBtn.style.left) || container.width / 2;
+            const currentTop = parseFloat(noBtn.style.top) || container.height / 2;
+            
+            // Make it jump farther by adding minimum distance
+            const minDistance = 150;
+            while (Math.abs(randomX - currentLeft) < minDistance && Math.abs(randomY - currentTop) < minDistance) {
+                randomX = Math.random() * maxX;
+                randomY = Math.random() * maxY;
+            }
+            
+            return { x: randomX, y: randomY };
+        }
+
+        function handleNo() {
+            noClickCount++;
+            
+            if (noClickCount >= maxNoClicks) {
+                // Show warning page with the actual number of attempts
+                document.getElementById('questionPage').style.display = 'none';
+                document.getElementById('warningPage').classList.add('active');
+                // Update the warning message with actual count
+                document.getElementById('warningCount').innerHTML = 
+                    `You tried to say no ${maxNoClicks} times! Really? 🤨`;
+            } else {
+                // Add moving class and move button to random position
+                noBtn.classList.add('moving');
+                
+                // On first click, set initial position based on current location
+                if (noClickCount === 1) {
+                    const currentRect = noBtn.getBoundingClientRect();
+                    const containerRect = buttonContainer.getBoundingClientRect();
+                    noBtn.style.left = (currentRect.left - containerRect.left) + 'px';
+                    noBtn.style.top = (currentRect.top - containerRect.top) + 'px';
+                }
+                
+                // Move to random position
+                setTimeout(() => {
+                    const pos = getRandomPosition();
+                    noBtn.style.left = pos.x + 'px';
+                    noBtn.style.top = pos.y + 'px';
+                }, 10);
+            }
+        }
+
+        function handleYes() {
+            // Hide question page
+            document.getElementById('questionPage').style.display = 'none';
+            // Show success page
+            document.getElementById('successPage').classList.add('active');
+            // Make container taller for the image
+            document.querySelector('.container').classList.add('wide');
+            
+            // Start countdown timer
+            startCountdown();
+            
+            // Start heart balloon animation
+            createHeartBalloons();
+        }
+
+        function startCountdown() {
+            // Set target date to February 14, 2026 at 00:00:00
+            const targetDate = new Date('February 14, 2026 00:00:00').getTime();
+            
+            // Check if we're already past Feb 14
+            const now = new Date().getTime();
+            if (now >= targetDate) {
+                showImage();
+                return;
+            }
+
+            // Update countdown every second
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                // If countdown is finished
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    showImage();
+                    return;
+                }
+
+                // Calculate time units
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Update display
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            }, 1000);
+        }
+
+        function showImage() {
+            // Hide countdown
+            document.getElementById('countdownSection').style.display = 'none';
+            // Show image
+            document.getElementById('imageSection').style.display = 'flex';
+        }
+
+        function createHeartBalloons() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.bottom = '-50px';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }, 300);
+        }
+
+        function resetGame() {
+            noClickCount = 0;
+            noBtn.classList.remove('moving');
+            noBtn.style.left = '';
+            noBtn.style.top = '';
+            
+            document.getElementById('warningPage').classList.remove('active');
+            document.getElementById('questionPage').style.display = 'block';
+        }
+
+        // Handle image load error
+        document.getElementById('coupleImage').addEventListener('error', function() {
+            this.style.display = 'none';
+            document.getElementById('placeholderText').style.display = 'block';
+            document.getElementById('placeholderText').innerHTML = '⚠️ Image not found! Make sure "valentine.png" is in the same folder as this HTML file.';
+        });
+
+        // Show image when loaded successfully
+        document.getElementById('coupleImage').addEventListener('load', function() {
+            this.style.display = 'block';
+            document.getElementById('placeholderText').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
